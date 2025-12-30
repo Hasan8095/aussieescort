@@ -7,6 +7,28 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 
+## 🚀 File Organization System
+
+This project includes an automated file download and organization system. Download files from a URL and automatically organize them into appropriate Laravel directories.
+
+**Quick Start:**
+```bash
+python3 download-organize.py
+```
+
+**Documentation:**
+- [📖 Quick Start Guide](QUICK_START.md) - Get started in 3 steps
+- [📋 Implementation Summary](IMPLEMENTATION_SUMMARY.md) - Complete overview
+- [💡 Usage Examples](USAGE_EXAMPLES.md) - Practical examples
+- [📁 File Organization Rules](FILE_ORGANIZATION.md) - Detailed documentation
+
+**Available Methods:**
+1. Python script (recommended) - `download-organize.py`
+2. Laravel Artisan - `php artisan files:download-organize <URL>`
+3. Bash shell script - `./download-organize.sh`
+
+---
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
