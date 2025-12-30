@@ -102,7 +102,8 @@ class DownloadAndOrganizeFiles extends Command
                 return 1;
             }
             
-            $this->info("Downloaded {count($files)} file(s).");
+            $fileCount = count($files);
+            $this->info("Downloaded {$fileCount} file(s).");
             
             // Organize each file
             foreach ($files as $file) {
@@ -337,16 +338,24 @@ class DownloadAndOrganizeFiles extends Command
             return $rel;
         }
         
+        // Check if $rel is empty
+        if (empty($rel)) {
+            return $base;
+        }
+        
         // Queries and anchors
         if ($rel[0] == '#' || $rel[0] == '?') {
             return $base . $rel;
         }
         
-        // Parse base URL and convert to local variables: $scheme, $host, $path
-        extract(parse_url($base));
+        // Parse base URL - manually extract components for security
+        $parsedBase = parse_url($base);
+        $scheme = isset($parsedBase['scheme']) ? $parsedBase['scheme'] : 'http';
+        $host = isset($parsedBase['host']) ? $parsedBase['host'] : '';
+        $path = isset($parsedBase['path']) ? $parsedBase['path'] : '';
         
         // Remove non-directory element from path
-        $path = isset($path) ? preg_replace('#/[^/]*$#', '', $path) : '';
+        $path = preg_replace('#/[^/]*$#', '', $path);
         
         // Destroy path if relative url points to root
         if ($rel[0] == '/') {
