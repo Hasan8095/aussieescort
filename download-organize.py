@@ -53,6 +53,11 @@ FILE_TYPE_MAPPING = {
     'pdf': 'storage/app/documents',
     'doc': 'storage/app/documents',
     'docx': 'storage/app/documents',
+    
+    # Data files
+    'json': 'storage/app/data',
+    'xml': 'storage/app/data',
+    'csv': 'storage/app/data',
 }
 
 
@@ -116,18 +121,22 @@ def get_target_directory(filename):
     # Get file extension
     ext = os.path.splitext(filename)[1].lower().lstrip('.')
     
-    # Check direct mapping
-    if ext in FILE_TYPE_MAPPING:
-        return BASE_DIR / FILE_TYPE_MAPPING[ext]
-    
-    # Additional logic for PHP files
+    # Special logic for PHP files (before general mapping)
     if ext == 'php':
         if 'Controller' in filename:
             return BASE_DIR / 'app/Http/Controllers'
-        elif re.match(r'^[A-Z][a-z]+\.php$', filename):
-            return BASE_DIR / 'app'
         elif 'Migration' in filename:
             return BASE_DIR / 'database/migrations'
+        elif 'Seeder' in filename:
+            return BASE_DIR / 'database/seeds'
+        elif re.match(r'^[A-Z][a-z]+\.php$', filename):
+            return BASE_DIR / 'app'
+        else:
+            return BASE_DIR / 'app'
+    
+    # Check direct mapping
+    if ext in FILE_TYPE_MAPPING:
+        return BASE_DIR / FILE_TYPE_MAPPING[ext]
     
     # Default location for unknown types
     return BASE_DIR / 'storage/app/other'

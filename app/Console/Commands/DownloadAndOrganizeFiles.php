@@ -277,22 +277,24 @@ class DownloadAndOrganizeFiles extends Command
      */
     protected function getTargetDirectory($extension, $fileName)
     {
-        // Check direct mapping
-        if (isset($this->fileTypeMapping[$extension])) {
-            return $this->fileTypeMapping[$extension];
-        }
-        
-        // Additional logic for PHP files
+        // Special logic for PHP files (before general mapping)
         if ($extension === 'php') {
             if (strpos($fileName, 'Controller') !== false) {
                 return 'app/Http/Controllers';
-            } elseif (strpos($fileName, 'Model') !== false || preg_match('/^[A-Z][a-z]+\.php$/', $fileName)) {
-                return 'app';
             } elseif (strpos($fileName, 'Migration') !== false) {
                 return 'database/migrations';
             } elseif (strpos($fileName, 'Seeder') !== false) {
                 return 'database/seeds';
+            } elseif (strpos($fileName, 'Model') !== false || preg_match('/^[A-Z][a-z]+\.php$/', $fileName)) {
+                return 'app';
+            } else {
+                return 'app';
             }
+        }
+        
+        // Check direct mapping
+        if (isset($this->fileTypeMapping[$extension])) {
+            return $this->fileTypeMapping[$extension];
         }
         
         return null;
